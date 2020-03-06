@@ -96,7 +96,7 @@ systemctl restart docker && systemctl enable docker
 systemctl restart kubelet && systemctl enable kubelet
 ```
 **Step-09:** Now began initializing the kubernetes cluster.
-``sh
+```sh
 kubeadm init --apiserver-advertise-address=$(hostname -i)
 kubeadm init --pod-network-cidr 192.168.0.0/16 --service-cidr 10.96.0.0/12 --service-dns-domain "k8s" --apiserver-advertise-address=$(hostname -i)
 ```
