@@ -1,4 +1,6 @@
-###Initialize the Helm Chart
+# Initialize the Helm Chart
+
+** This is a basic steps for installing & initializing a helm chart **
 
 ```sh
 wget https://get.helm.sh/helm-v2.16.10-linux-amd64.tar.gz
@@ -31,4 +33,9 @@ helm reset --remove-helm-home
 kubectl -n kube-system get deploy,rs,po,sa,clusterrolebinding | grep -i tiller
 kubectl -n kube-system delete clusterrolebindings tiller
 kubectl -n kube-system delete sa tiller
+```
+### Creating your own chart 
+```sh
+helm create mychart
+tree mychart/
 ```
