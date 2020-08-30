@@ -1,6 +1,6 @@
 # Initialize the Helm Chart
 
-** This is a basic steps for installing & initializing a helm chart **
+**This is a basic steps for installing & initializing a helm chart**
 
 ```sh
 wget https://get.helm.sh/helm-v2.16.10-linux-amd64.tar.gz
