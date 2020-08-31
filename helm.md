@@ -43,5 +43,37 @@ tree mychart/
 ```
 ### Helm Migrating from v2 to v3 
 ```sh
+# Install a Release to test during migration
+helm install stable/phpmyadmin --name phpmyadmin
+helm list
 
+helm install stable/phpmyadmin --name phpmyadmin
+tar xzf helm-v3.3.0-linux-amd64.tar.gz
+sudo mv helm /usr/local/bin/helm3
+which helm3
+helm3 version --short
+helm repo list
+helm3 repo list
+helm list
+helm3 list
+helm3 plugin install https://github.com/helm/helm-2to3
+helm3 plugin list
+
+helm3 2to3 move --help
+helm3 2to3 move config --dry-run
+helm3 2to3 move config
+
+helm3 2to3 convert --help
+helm3 2to3 convert phpmyadmin --dry-run
+helm3 2to3 convert phpmyadmin
+
+helm3 2to3 cleanup
+sudo rm -rf /usr/local/bin/helm
+sudo mv /usr/local/bin/{helm3,helm}
+
+which helm
+helm verison --short
+helm search repo phpmyadmin
+helm install phpmyadmin stable/phpmyadmin
+watch kubectl get all 
 ```
