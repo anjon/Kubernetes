@@ -3,6 +3,7 @@
 **This is a basic steps for installing & initializing a helm chart**
 
 ```sh
+# Installing helm
 wget https://get.helm.sh/helm-v2.16.10-linux-amd64.tar.gz
 tar -xvzf helm-v2.16.10-linux-amd64.tar.gz
 cd linux-amd64/
@@ -12,8 +13,9 @@ helm version
 helm version --short --client
 kubectl -n kube-system create serviceaccount tiller
 kubectl create clusterrolebinding tiller --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-kubectl -n kube-system get sa tiller
-kubectl get clusterrolebindings tiller
+kubectl -n kube-system get sa,clusterrolebindings |grep -i tiller
+
+# Initializing helm 
 helm init --service-account tiller
 helm help | less
 helm home
@@ -38,4 +40,8 @@ kubectl -n kube-system delete sa tiller
 ```sh
 helm create mychart
 tree mychart/
+```
+### Helm Migrating from v2 to v3 
+```sh
+
 ```
