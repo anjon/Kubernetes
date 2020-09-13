@@ -77,3 +77,42 @@ helm search repo phpmyadmin
 helm install phpmyadmin stable/phpmyadmin
 watch kubectl get all 
 ```
+
+### Create Custom Helm Chart form Scratch 
+```sh
+helm version --short
+mkdir charts ; cd charts
+mkdir my-nginx ; cd my-nginx
+vim Chart.yaml
+apiVersion: v1
+name: my-nginx
+description: My custom nginx chart
+version: 0.4.0
+appVersion: 1.0
+
+mkdir templates
+kubectl create deployment my-nginx --image=nginx --dry-run=client -o yaml > charts/my-nginx/templates/deployment.yaml
+helm install --name my-nginx .
+kubectl expose deployment my-nginx --port=80 --dry-run=client -o yaml > templates/service.yaml
+helm list
+helm rollback my-nginx 1
+helm rollback my-nginx 2
+helm delete --purge my-nginx
+vim values.yaml
+replicaCount: 1
+service:
+  type: NodePort
+
+helm install --name myn-nginx . --set replicaCount=2
+helm delete --purge myn-nginx
+helm inspect values . > /tmp/my-nginx.values
+helm install --name my-nginx . --values /tmp/my-nginx.values
+helm upgrade my-nginx . --set replicaCount=2
+helm upgrade my-nginx .
+helm upgrade my-nginx . --set service.type=LoadBalancer
+helm delete --purge my-nginx
+
+helm create myapp
+tree charts
+helm list
+```
