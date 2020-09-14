@@ -116,3 +116,34 @@ helm create myapp
 tree charts
 helm list
 ```
+
+### Local Helm Chart Repository
+```sh
+tree charts/
+cd charts/
+helm package my-nginx
+helm serve --repo-path .
+helm repo list
+helm repo update
+helm repo remove local
+helm repo add local http://127.0.0.1:8879/charts
+helm repo list
+helm search local/
+
+helm serve --repo-path . --address "0.0.0.0:5000"  # Serve for other cluster
+helm repo add myrepo http://localhost:5000/charts
+helm repo update
+helm repo remove local
+helm repo list
+helm repo update
+helm search myrepo/
+helm install --name my-nginx myrepo/my-nginx
+helm list
+vim charts/my-nginx/Chart.yaml
+helm package my-nginx
+helm repo index .
+helm repo update
+helm search myrepo/
+helm repo list
+helm delete --purge my-nginx
+```
