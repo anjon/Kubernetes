@@ -72,3 +72,17 @@ kops validate cluster --name myops.k8s.local
 kubectl get nodes
 kubectl version --short 
 ```
+
+## Kops Scaling Cluster
+```sh
+kops validate cluster --name myops.k8s.local
+kubectl get nodes
+kops get cluster 
+kops get instancegroups --name myops.k8s.local 
+kops edit instancegroups nodes --name myops.k8s.local 
+set maxSize=1, minSize=1
+kops update cluster --name myops.k8s.local --yes 
+kops rolling-update cluster --name myops.k8s.local --yes 
+kops validate cluster --name myops.k8s.local
+kubectl get nodes 
+```
