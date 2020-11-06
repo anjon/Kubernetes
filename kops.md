@@ -1,4 +1,4 @@
-## Prepare the KOPS Environment Ready
+## Deploy Kubernetes CLuster on aws using KOPS
 
 #### Configure awscli, kops & kubectl
 ```sh
@@ -45,4 +45,30 @@ https://localhost:8080
 kubectl delete deployment 
 aws s3 ls anjon-kops-bucket
 kops get cluster
+```
+
+## Upgrading Kubernetes Cluster Using KOPS
+
+#### Upgrading Cluster to Specific Version
+```sh
+kops get cluster
+kubectl version --short
+kubectl get nodes
+kops edit cluster --name myops.k8s.local
+kubernetesversion: 1.18.3
+kops update cluster --name myops.k8s.local --yes 
+kops rolling-update cluster --name myops.k8s.local --yes 
+kops validate cluster --name myops.k8s.local 
+kubectl get no 
+kubectl version --short
+```
+
+#### Upgrading Clustr to Latest Version
+```sh
+kops upgrade cluster --name myops.k8s.local --yes 
+kops update cluster --name myops.k8s.local --yes 
+kops rolling-update cluster --name myops.k8s.local --yes 
+kops validate cluster --name myops.k8s.local 
+kubectl get nodes
+kubectl version --short 
 ```
