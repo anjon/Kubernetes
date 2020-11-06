@@ -86,3 +86,11 @@ kops rolling-update cluster --name myops.k8s.local --yes
 kops validate cluster --name myops.k8s.local
 kubectl get nodes 
 ```
+
+## KOPS - Deleting Cluster 
+```sh
+kops get cluster 
+kops validate cluster --name myops.k8s.local 
+kubectl get nodes 
+kops delete cluster --name myops.k8s.local --yes 
+```
