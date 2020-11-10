@@ -5,7 +5,7 @@ tar -xzvf helm-v3.4.0-linux-amd64.tar.gz
 sudo mv linux-amd64/helm /usr/local/bin/helm
 which helm
 helm version --short
-sudo kubectl completion bash >/etc/bash_completion.d/kubectl
+helm completion bash > /etc/bash_completion.d/helm
 helm repo add stable https://charts.helm.sh/stable
 helm search repo stable
 helm search repo metrics-server
