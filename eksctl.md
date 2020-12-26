@@ -2,9 +2,9 @@
 
 #### Step 01:
 To launch a eks cluster in aws we need 3 component to prepare 
-...awscli
-b) eksctl
-c) kubectl
+- awscli
+- eksctl
+- kubectl
 
 ```sh
 sudo apt install awscli
