@@ -100,3 +100,56 @@ CMD ["/app/webserver"]
 
 #### This will also give us the same output in the browser as previously.
 <img src="../pictures/go-output.jpg" width="50%" height="50%">
+
+## Now it's time to deploy this docker image to our k3d kubernetes cluster
+#### First of all we need to install the k3d binaries to the host by using the link 
+Then Create the k3d image registry by using following commands 
+``` k3d registry create go-app-registry --port 5050 ```
+Now we need to link this newly created registry to our local mirror using a file called registries.yaml
+#### registries.yaml
+```yaml
+mirrors:
+"localhost:5050":
+    endpoint:
+      - http://k3d-go-app-registry:5050
+```
+Now we can create the k3d kubernetes cluster using the below command 
+``` k3d cluster create mycluster -p "9900:80@loadbalancer" -s 1 -a 3 --registry-use k3d-go-app-registry:5050 --registry-config registries.yaml ```
+
+We need to push our docker image to the newly created image registry. For that we need tp tag that image accordingly and then push this to registry.
+```
+docker tag go-web-server:latest localhost:5050/go-web-server:v1.0
+docker push localhost:5050/go-web-server:v1.0
+```
+As of now we have our cluster and image ready for the deployment. So before go further we need tp download kubernetes client binaries to interact with the cluster which is ```kubectl```. The link for that is https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management
+
+We can now spin up the new deployment object using our image also the service to access this go app 
+```
+kubectl create deployment go-web-server --image=k3d-go-app-registry:5050/go-web-server:v1.0
+kubectl create service clusterip go-web-server --tcp=9091:9091
+```
+To access this application using our browser we need an ingress service to point ou our loadbalancer. Let's create the ingress object.
+#### ingress.yaml
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: go-web-server
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "false"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: go-web-server
+            port:
+              number: 9091
+```
+Now we can deploy this ingress with the following command 
+``` kubectl apply -f ingress.yaml ```
+### So now all the required steps are done we can use our browser to access our loadbanalcer to access our go-applicaion.
+<img src="../pictures/go-loadbalancer.jpg" width="80%" height="80%">
