@@ -113,7 +113,7 @@ mirrors:
     endpoint:
       - http://k3d-go-app-registry:5050
 ```
-Now we can create the k3d kubernetes cluster using the below command 
+Now we can create the k3d kubernetes cluster using the below command \
 ``` k3d cluster create mycluster -p "9900:80@loadbalancer" -s 1 -a 3 --registry-use k3d-go-app-registry:5050 --registry-config registries.yaml ```
 
 We need to push our docker image to the newly created image registry. For that we need tp tag that image accordingly and then push this to registry.
